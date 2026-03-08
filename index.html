@@ -66,6 +66,7 @@
                         <li><a href="#programs" onclick="openModal('yearly'); return false;">Annual Plan</a></li>
                     </ul>
                 </li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
                 <li class="dropdown">
                     <a href="#" class="nav-link" onclick="return false;">Certificates ▾</a>
                     <ul class="dropdown-menu">
@@ -494,6 +495,50 @@
             </div>
         </div>
     </div>
+
+    <!-- AI Chatbot Interface -->
+    <div id="ai-chatbot-widget" class="ai-chatbot-widget" title="Need help? Ask our AI!">
+        <div class="chatbot-icon">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M52 40C52 46.6274 46.6274 52 40 52H20C13.3726 52 8 46.6274 8 40V24C8 17.3726 13.3726 12 20 12H40C46.6274 12 52 17.3726 52 24V40Z"
+                    stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M52 48L60 56V40" stroke="currentColor" stroke-width="4" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <circle cx="22" cy="32" r="4" fill="currentColor" />
+                <circle cx="38" cy="32" r="4" fill="currentColor" />
+            </svg>
+        </div>
+    </div>
+
+    <div id="ai-chat-window" class="ai-chat-window hidden">
+        <div class="ai-chat-header">
+            <div class="ai-chat-title">
+                <div class="ai-avatar">AI</div>
+                <h3>RSMAC Support</h3>
+            </div>
+            <button class="ai-chat-close">&times;</button>
+        </div>
+        <div id="ai-chat-messages" class="ai-chat-messages">
+            <div class="message bot-message">
+                <p>Hello! I'm the Right Strike virtual assistant. How can I help you regarding our martial arts classes,
+                    schedules, or pricing today?</p>
+            </div>
+        </div>
+        <div class="ai-chat-input-area">
+            <input type="text" id="ai-chat-input" placeholder="Ask a question..." autocomplete="off">
+            <button id="ai-chat-send" aria-label="Send message">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script src="chat.js"></script>
 </body>
 
 </html>

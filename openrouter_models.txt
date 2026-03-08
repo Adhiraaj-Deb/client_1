@@ -1,0 +1,5 @@
+liquid/lfm-2-24b-a2b
+liquid/lfm-2.5-1.2b-thinking:free
+liquid/lfm-2.5-1.2b-instruct:free
+liquid/lfm2-8b-a1b
+liquid/lfm-2.2-6b
