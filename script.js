@@ -5,6 +5,18 @@ const loadingScreen = document.getElementById('loading-screen');
 const loadingVideo = document.getElementById('loading-video');
 
 function initLoadingScreen() {
+    // Disable loading screen completely on mobile devices
+    if (window.innerWidth <= 768) {
+        if (loadingScreen) loadingScreen.style.display = 'none';
+        document.body.classList.remove('loading');
+        if (loadingVideo) {
+            loadingVideo.pause();
+            loadingVideo.removeAttribute('src'); // Free up memory
+            loadingVideo.load();
+        }
+        return;
+    }
+
     // Video event handling
     if (loadingVideo) {
         // Fallback: If video fails to load, continue with black background
@@ -83,75 +95,109 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Mobile menu toggle
 const mobileMenuToggle = document.getElementById('mobileMenuToggle');
 const navMenu = document.getElementById('navMenu');
+const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+const mobilePanelClose = document.getElementById('mobilePanelClose');
+let scrollPosition = 0;
+
+function closeMobileMenu() {
+    navMenu.classList.remove('active');
+    mobileMenuToggle.classList.remove('active');
+    if (mobileNavOverlay) mobileNavOverlay.classList.remove('active');
+    document.body.classList.remove('no-scroll');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollPosition);
+
+    // Close all open dropdowns too
+    document.querySelectorAll('.dropdown.mobile-open').forEach(d => d.classList.remove('mobile-open'));
+}
+
+function openMobileMenu() {
+    scrollPosition = window.scrollY;
+    navMenu.classList.add('active');
+    mobileMenuToggle.classList.add('active');
+    if (mobileNavOverlay) mobileNavOverlay.classList.add('active');
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = '100%';
+    document.body.classList.add('no-scroll');
+}
 
 if (mobileMenuToggle) {
-    let scrollPosition = 0;
-
     mobileMenuToggle.addEventListener('click', () => {
-        const isMenuOpen = navMenu.classList.contains('active');
-
-        if (!isMenuOpen) {
-            // Opening the menu
-            // Capture current scroll position
-            scrollPosition = window.scrollY;
-
-            navMenu.classList.add('active');
-            mobileMenuToggle.classList.add('active');
-
-            // Lock body position
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollPosition}px`;
-            document.body.style.width = '100%';
-            document.body.classList.add('no-scroll');
-        } else {
-            // Closing the menu
-            navMenu.classList.remove('active');
-            mobileMenuToggle.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-
-            // Restore body position
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-
-            // Restore scroll position
-            window.scrollTo(0, scrollPosition);
-        }
-    });
-
-    // Close menu when clicking a link (nav links or logo)
-    document.querySelectorAll('.nav-link, .logo-text').forEach(link => {
-        link.addEventListener('click', (e) => {
-            if (navMenu.classList.contains('active')) {
-                // Prevent the default generic scroll listener from failing
-                e.preventDefault();
-                e.stopPropagation();
-
-                // 1. Close the menu and unlock the body first
-                navMenu.classList.remove('active');
-                mobileMenuToggle.classList.remove('active');
-                document.body.classList.remove('no-scroll');
-
-                // Restore body position
-                document.body.style.position = '';
-                document.body.style.top = '';
-                document.body.style.width = '';
-
-                // 2. Wait a tiny bit for the menu to close and body to unlock
-                setTimeout(() => {
-                    const targetId = link.getAttribute('href');
-                    const target = document.querySelector(targetId);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }, 50); // 50ms delay is usually enough
-            }
-        });
+        navMenu.classList.contains('active') ? closeMobileMenu() : openMobileMenu();
     });
 }
+
+// Panel close button (×)
+if (mobilePanelClose) {
+    mobilePanelClose.addEventListener('click', closeMobileMenu);
+}
+
+// Close menu when clicking the dark overlay
+if (mobileNavOverlay) {
+    mobileNavOverlay.addEventListener('click', closeMobileMenu);
+}
+
+// Tap-to-expand dropdowns on mobile
+document.querySelectorAll('.dropdown').forEach(dropdown => {
+    const link = dropdown.querySelector('.nav-link');
+    if (!link) return;
+
+    link.addEventListener('click', (e) => {
+        // Only intercept on mobile
+        if (window.innerWidth > 768) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const isOpen = dropdown.classList.contains('mobile-open');
+
+        // Close all others first
+        document.querySelectorAll('.dropdown.mobile-open').forEach(d => d.classList.remove('mobile-open'));
+
+        // Toggle this one
+        if (!isOpen) {
+            dropdown.classList.add('mobile-open');
+        }
+    });
+});
+
+// Close mobile menu when clicking a non-dropdown nav-link
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+        // Skip if this is a dropdown toggle (handled above)
+        if (link.closest('.dropdown')) return;
+        if (!navMenu.classList.contains('active')) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const href = link.getAttribute('href');
+        closeMobileMenu();
+
+        setTimeout(() => {
+            if (href && href !== '#') {
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else if (href.includes('.html')) {
+                    window.location.href = href; // External page (gallery.html)
+                }
+            }
+        }, 60);
+    });
+});
+
+// Close mobile menu when clicking dropdown sub-links
+document.querySelectorAll('.dropdown-menu a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        if (window.innerWidth > 768) return;
+        // Let default onclick fire first, then close the menu
+        setTimeout(closeMobileMenu, 100);
+    });
+});
 
 // Contact form handling
 const contactForm = document.getElementById('contactForm');
