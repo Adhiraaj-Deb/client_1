@@ -467,4 +467,70 @@ document.addEventListener('DOMContentLoaded', () => {
             </p>
         `;
     };
+
+    /* --- Certificate / Gallery Lightbox Modal --- */
+    const certModal = document.getElementById('cert-modal');
+    const certModalImg = document.getElementById('cert-modal-img');
+    const certModalTitle = document.getElementById('cert-modal-title');
+    const certModalDesc = document.getElementById('cert-modal-desc');
+    const certModalClose = document.querySelector('.cert-modal-close');
+    const certModalOverlay = document.querySelector('.cert-modal-overlay');
+
+    if (certModal) {
+        // Add click listeners to all gallery items
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.style.cursor = 'pointer'; // Make them look clickable
+
+            // Add a subtle hover effect if desired, or rely on CSS
+            item.addEventListener('click', () => {
+                const img = item.querySelector('img');
+                const title = item.querySelector('h3');
+                const desc = item.querySelector('p');
+
+                if (img) {
+                    certModalImg.src = img.src;
+                } else {
+                    // Fallback for placeholders without real images
+                    const placeholderSpan = item.querySelector('.gallery-image span');
+                    if (placeholderSpan) {
+                        // Empty src will show alt text or broken image icon. 
+                        // For this MVP, we just use empty src if no image.
+                        certModalImg.src = '';
+                        certModalImg.alt = placeholderSpan.textContent;
+                    }
+                }
+
+                if (title) certModalTitle.textContent = title.textContent;
+                if (desc) certModalDesc.textContent = desc.textContent;
+
+                certModal.classList.add('active');
+                certModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden'; // Stop background scrolling
+            });
+        });
+
+        // Close functions
+        const closeCertModal = () => {
+            certModal.classList.remove('active');
+            certModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = ''; // Restore scrolling
+
+            // Clear image after fade Out animation completes (300ms)
+            setTimeout(() => {
+                certModalImg.src = '';
+                certModalImg.alt = 'Certificate View';
+            }, 300);
+        };
+
+        if (certModalClose) certModalClose.addEventListener('click', closeCertModal);
+        if (certModalOverlay) certModalOverlay.addEventListener('click', closeCertModal);
+
+        // Escape key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && certModal.classList.contains('active')) {
+                closeCertModal();
+            }
+        });
+    }
+
 });
