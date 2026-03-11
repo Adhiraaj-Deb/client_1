@@ -1,7 +1,9 @@
+import 'dotenv/config';
+
 const invokeUrl = "https://openrouter.ai/api/v1/chat/completions";
 
 const headers = {
-    "Authorization": "Bearer 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",
+    "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
     "Content-Type": "application/json"
 };
 

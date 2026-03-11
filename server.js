@@ -1,12 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static('.')); // Serve the frontend files like index.html
-
-const AI_CHATBOT_API_KEY = "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";
+// AI_API - Replace the key below when it expires or gets revoked
+const AI_CHATBOT_API_KEY = process.env.OPENROUTER_API_KEY;
 
 app.post('/api/chat', async (req, res) => {
     try {
