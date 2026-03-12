@@ -1,5 +1,10 @@
 name = "rsmac"
 compatibility_date = "2024-03-20"
+main = "functions/api/chat.js"
 
 [assets]
-directory = "."
+directory = "public"
+
+# We must explicitly bind the variable, the actual value comes from Cloudflare dashboard
+[vars]
+OPENROUTER_API_KEY = ""
