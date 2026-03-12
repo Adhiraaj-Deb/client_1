@@ -534,3 +534,140 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+/* ===================================
+   Testimonial Carousel Logic
+   =================================== */
+function initTestimonialCarousel({ containerSelector, reviews }) {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
+
+    const track = container.querySelector('.testimonial-carousel__track');
+    const dotsContainer = container.querySelector('.testimonial-carousel__dots');
+    const prevBtn = container.querySelector('.testimonial-carousel__button--prev');
+    const nextBtn = container.querySelector('.testimonial-carousel__button--next');
+
+    if (!track || !reviews || reviews.length === 0) return;
+
+    // Build the cards and dots
+    track.innerHTML = '';
+    dotsContainer.innerHTML = '';
+
+    reviews.forEach((review, index) => {
+        // Create Card
+        const card = document.createElement('article');
+        card.className = 'testimonial-card';
+        card.innerHTML = `
+            <div class="testimonial-card__quote-icon">"</div>
+            <p class="testimonial-card__text">${review.text}</p>
+            <p class="testimonial-card__author">&mdash; ${review.author}</p>
+        `;
+        track.appendChild(card);
+
+        // Create Dot
+        const dot = document.createElement('button');
+        dot.className = 'testimonial-carousel__dot';
+        if (index === 0) dot.classList.add('testimonial-carousel__dot--active');
+        dot.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
+
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+            resetAutoSlide();
+        });
+
+        dotsContainer.appendChild(dot);
+    });
+
+    let activeIndex = 0;
+    const totalSlides = reviews.length;
+    let autoSlideInterval;
+
+    function goToSlide(index) {
+        if (index < 0) {
+            activeIndex = totalSlides - 1;
+        } else if (index >= totalSlides) {
+            activeIndex = 0;
+        } else {
+            activeIndex = index;
+        }
+
+        // Move the track
+        track.style.transform = `translateX(-${activeIndex * 100}%)`;
+
+        // Update dots
+        const allDots = dotsContainer.querySelectorAll('.testimonial-carousel__dot');
+        allDots.forEach((dot, i) => {
+            if (i === activeIndex) {
+                dot.classList.add('testimonial-carousel__dot--active');
+            } else {
+                dot.classList.remove('testimonial-carousel__dot--active');
+            }
+        });
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            goToSlide(activeIndex - 1);
+            resetAutoSlide();
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            goToSlide(activeIndex + 1);
+            resetAutoSlide();
+        });
+    }
+
+    // Auto-slide functionality
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+            goToSlide(activeIndex + 1);
+        }, 5000);
+    }
+
+    function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+    }
+
+    function resetAutoSlide() {
+        stopAutoSlide();
+        startAutoSlide();
+    }
+
+    // Pause on hover/focus
+    container.addEventListener('mouseenter', stopAutoSlide);
+    container.addEventListener('mouseleave', startAutoSlide);
+    container.addEventListener('focusin', stopAutoSlide);
+    container.addEventListener('focusout', startAutoSlide);
+
+    // Initial Start
+    startAutoSlide();
+}
+
+// Initialize on page load with data
+document.addEventListener('DOMContentLoaded', () => {
+    const reviewsData = [
+        {
+            text: "This club completely changed how my son approaches challenges. His discipline and focus have skyrocketed since joining.",
+            author: "Priya Sharma"
+        },
+        {
+            text: "Master Neeraj is fantastic! A perfect blend of traditional respect and modern, engaging training methods. Highly recommended.",
+            author: "Rahul Varma"
+        },
+        {
+            text: "I joined for fitness but stayed for the incredible community and self-defense skills. Best decision I've made this year.",
+            author: "Anjali Desai"
+        },
+        {
+            text: "The safe, welcoming environment makes all the difference. My kids actually look forward to every single session.",
+            author: "Michael T."
+        }
+    ];
+
+    initTestimonialCarousel({
+        containerSelector: '#my-testimonials',
+        reviews: reviewsData
+    });
+});
