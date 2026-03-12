@@ -579,24 +579,36 @@ function initTestimonialMarquee({ containerSelector, reviews }) {
 document.addEventListener('DOMContentLoaded', () => {
     const reviewsData = [
         {
-            text: "This club completely changed how my son approaches challenges. His discipline and focus have skyrocketed since joining.",
-            author: "Priya Sharma"
+            text: "Nice coaching provided by the Karate master.",
+            author: "Syed Musthaffa"
         },
         {
-            text: "Master Neeraj is fantastic! A perfect blend of traditional respect and modern, engaging training methods. Highly recommended.",
-            author: "Rahul Varma"
+            text: "Very good coaching by the master Neeraj, really greatful for kids to learn defending technics and good fitness.",
+            author: "Chaithra Chaithra"
         },
         {
-            text: "I joined for fitness but stayed for the incredible community and self-defense skills. Best decision I've made this year.",
-            author: "Anjali Desai"
+            text: "Very good instructor, well structured and disciplined, my kids are learning a lot here, very thankful to Neeraj sir to improved confidence to my kids",
+            author: "Vincent Vasanth Kumar"
         },
         {
-            text: "The safe, welcoming environment makes all the difference. My kids actually look forward to every single session.",
-            author: "Michael T."
+            text: "The training quality is very good, and the coach Neeraj maintains discipline while keeping the kids motivated. I can see great improvement in my child's focus and confidence.",
+            author: "Eshitha Eshwarilr"
         },
         {
-            text: "Exceptional coaching. You learn true self-control here, while building confidence the right way.",
-            author: "Karthik R."
+            text: "The Karate classes under Trainer Neeraj at Eurokids Doddakannelli are a must-try. It's an investment in your child's physical health, mental focus, and character development. Highly, highly recommended!",
+            author: "Mamatha Teja"
+        },
+        {
+            text: "We are very happy with the karate class. My kid loves coming every week and is learning so much. The coach gives personal attention and motivates the children very well. Highly recommend this place.",
+            author: "Lokesh Lokesh"
+        },
+        {
+            text: "My son has been attending karate classes under Neeraj for a while. He has exceptional ability to combine rigour and patience while teaching kids. He pays good attention to fitness as well. Strongly recommend this place.",
+            author: "Paulson Vincent"
+        },
+        {
+            text: "My child really enjoys the karate classes. The coach Neeraj is very patient, skilled, and dedicated. My child has become more disciplined and active. We are very happy with the progress. Highly recommend this institute.",
+            author: "Udaya Kumar"
         }
     ];
 
