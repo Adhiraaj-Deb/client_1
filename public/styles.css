@@ -2957,9 +2957,7 @@ body.loading .ai-chat-window {
     animation: scroll-left 40s linear infinite;
 }
 
-.testimonial-marquee:hover .testimonial-marquee__track {
-    animation-play-state: paused;
-}
+
 
 @keyframes scroll-left {
     0% {
