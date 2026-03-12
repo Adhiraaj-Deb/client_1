@@ -1,21 +1,5 @@
 name = "rsmac"
 compatibility_date = "2024-03-20"
-pages_build_output_dir = "."
 
-[build]
-command = "npm run build"
-watch_dir = "src"
-
-# This explicitly tells wrangler what NOT to upload
-[site]
-bucket = "."
-exclude = [
-    "node_modules",
-    "functions",
-    ".wrangler",
-    ".git",
-    "package-lock.json",
-    "package.json",
-    "server.js",
-    ".env"
-]
+[assets]
+directory = "."
