@@ -193,9 +193,9 @@ async function handleSendMessage() {
     // 3. Show typing indicator
     showTypingIndicator();
 
-    // 4. Call Local Node.js Proxy Server
+    // 4. Call Cloudflare Pages API Endpoint
     try {
-        const response = await fetch("http://localhost:3005/api/chat", {
+        const response = await fetch("/api/chat", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -207,7 +207,7 @@ async function handleSendMessage() {
 
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(`Proxy returned status: ${response.status} - ${errorText}`);
+            throw new Error(`Cloudflare Function API Error: ${response.status} - ${errorText}`);
         }
 
         const data = await response.json();
