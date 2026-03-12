@@ -2976,7 +2976,8 @@ body.loading .ai-chat-window {
     padding: var(--spacing-lg);
     background: var(--color-surface, #141414);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: var(--border-radius-lg);
+    border-radius: 2.5rem;
+    /* Large radius for a squircle effect */
     display: flex;
     flex-direction: column;
     justify-content: center;
