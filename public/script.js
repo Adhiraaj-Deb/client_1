@@ -538,11 +538,11 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ===================================
    Testimonial Marquee Logic
    =================================== */
-function initTestimonialMarquee({ trackSelector, reviews }) {
-    const track = document.querySelector(trackSelector);
-    if (!track || !reviews || reviews.length === 0) return;
+function initTestimonialMarquee({ containerSelector, reviews }) {
+    const marqueeContainer = document.querySelector(containerSelector);
+    if (!marqueeContainer || !reviews || reviews.length === 0) return;
 
-    track.innerHTML = '';
+    marqueeContainer.innerHTML = '';
 
     // Function to generate a single card HTML
     const createCardHTML = (review) => `
@@ -553,16 +553,26 @@ function initTestimonialMarquee({ trackSelector, reviews }) {
         </article>
     `;
 
-    // 1. Add Original items
+    // 1. Create First Track and fill it
+    const track1 = document.createElement('div');
+    track1.className = 'testimonial-marquee__track';
+
     reviews.forEach((review) => {
-        track.insertAdjacentHTML('beforeend', createCardHTML(review));
+        track1.insertAdjacentHTML('beforeend', createCardHTML(review));
     });
 
-    // 2. Duplicate items for infinite seamless scroll
-    // The CSS animation scrolls exactly -50% of the track width to loop.
+    marqueeContainer.appendChild(track1);
+
+    // 2. Create Second Track (Clone for infinite loop)
+    const track2 = document.createElement('div');
+    track2.className = 'testimonial-marquee__track';
+    track2.setAttribute('aria-hidden', 'true'); // Hide from screen readers so they don't read duplicates
+
     reviews.forEach((review) => {
-        track.insertAdjacentHTML('beforeend', createCardHTML(review));
+        track2.insertAdjacentHTML('beforeend', createCardHTML(review));
     });
+
+    marqueeContainer.appendChild(track2);
 }
 
 // Initialize on page load with data
@@ -591,7 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     initTestimonialMarquee({
-        trackSelector: '#testimonial-track',
+        containerSelector: '#my-testimonials',
         reviews: reviewsData
     });
 });

@@ -2942,9 +2942,10 @@ body.loading .ai-chat-window {
     /* Full bleed trick */
     display: flex;
     overflow: hidden;
+    gap: var(--spacing-md);
     /* Optional: add a subtle gradient fade on the edges */
-    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
 .testimonial-marquee__track {
@@ -2952,6 +2953,7 @@ body.loading .ai-chat-window {
     gap: var(--spacing-md);
     padding: var(--spacing-md) 0;
     width: max-content;
+    flex-shrink: 0;
     animation: scroll-left 40s linear infinite;
 }
 
@@ -2965,8 +2967,8 @@ body.loading .ai-chat-window {
     }
 
     100% {
-        /* Move left by exactly half the track width (the original set of items) */
-        transform: translateX(calc(-50% - (var(--spacing-md) / 2)));
+        /* Move left by exactly the width of one track + the gap between tracks */
+        transform: translateX(calc(-100% - var(--spacing-md)));
     }
 }
 
