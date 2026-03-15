@@ -27,39 +27,64 @@ export default {
           });
         }
 
-        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${apiKey}`,
-            "Content-Type": "application/json",
-            "HTTP-Referer": "https://rsmac.adhiraaj4747.workers.dev",
-            "X-Title": "Right Strike Dojo Chatbot",
-          },
-          body: JSON.stringify({
-            model: "meta-llama/llama-3.3-70b-instruct:free",
-            messages: body.messages,
-            max_tokens: 512,
-            temperature: 0.2,
-          }),
-        });
+        // Try multiple free models in order for resilience
+        const models = [
+          "liquid/lfm-2.5-1.2b-instruct:free",
+          "meta-llama/llama-3.2-3b-instruct:free",
+          "mistralai/mistral-7b-instruct:free",
+        ];
 
-        const data = await response.json();
+        let lastError = null;
+        for (const model of models) {
+          const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${apiKey}`,
+              "Content-Type": "application/json",
+              "HTTP-Referer": "https://rsmac.adhiraaj4747.workers.dev",
+              "X-Title": "Right Strike Dojo Chatbot",
+            },
+            body: JSON.stringify({
+              model: model,
+              messages: body.messages,
+              max_tokens: 512,
+              temperature: 0.2,
+            }),
+          });
 
-        if (!response.ok || data.error) {
-          return new Response(JSON.stringify({ error: `OpenRouter Error: ${response.status} - ${JSON.stringify(data.error || data)}` }), {
-            status: 500,
-            headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+          const data = await response.json();
+
+          // If rate limited (429) or upstream error, try next model
+          if (response.status === 429 || (data.error && data.error.code === 429)) {
+            lastError = data.error || { message: "Rate limited" };
+            continue;
+          }
+
+          // If other non-ok response, return error
+          if (!response.ok || data.error) {
+            return new Response(JSON.stringify({ error: `OpenRouter Error: ${response.status} - ${JSON.stringify(data.error || data)}` }), {
+              status: 500,
+              headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+            });
+          }
+
+          // Success!
+          return new Response(JSON.stringify(data), {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods": "POST, OPTIONS",
+              "Access-Control-Allow-Headers": "Content-Type",
+            },
           });
         }
 
-        return new Response(JSON.stringify(data), {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type",
-          },
+        // All models failed
+        return new Response(JSON.stringify({ error: `All models rate limited: ${JSON.stringify(lastError)}` }), {
+          status: 429,
+          headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
         });
+
       } catch (error) {
         return new Response(JSON.stringify({ error: error.message }), {
           status: 500,
