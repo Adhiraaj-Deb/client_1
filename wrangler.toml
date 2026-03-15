@@ -6,6 +6,3 @@ compatibility_flags = ["nodejs_compat"]
 [assets]
 directory = "public"
 binding = "ASSETS"
-
-[vars]
-OPENROUTER_API_KEY = ""
