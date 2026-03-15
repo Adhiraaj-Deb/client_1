@@ -36,22 +36,22 @@ export default {
             "X-Title": "Right Strike Dojo Chatbot",
           },
           body: JSON.stringify({
-            model: "liquid/lfm-2.5-1.2b-instruct:free",
+            model: "meta-llama/llama-3.3-70b-instruct:free",
             messages: body.messages,
             max_tokens: 512,
             temperature: 0.2,
           }),
         });
 
-        if (!response.ok) {
-          const errorText = await response.text();
-          return new Response(JSON.stringify({ error: `OpenRouter Error: ${response.status} - ${errorText}` }), {
+        const data = await response.json();
+
+        if (!response.ok || data.error) {
+          return new Response(JSON.stringify({ error: `OpenRouter Error: ${response.status} - ${JSON.stringify(data.error || data)}` }), {
             status: 500,
             headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
           });
         }
 
-        const data = await response.json();
         return new Response(JSON.stringify(data), {
           headers: {
             "Content-Type": "application/json",
