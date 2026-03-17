@@ -60,9 +60,10 @@ export default {
             continue;
           }
 
-          // If other non-ok response, return error
+          // If other non-ok response (e.g. 401 auth error), return simplified error
           if (!response.ok || data.error) {
-            return new Response(JSON.stringify({ error: `OpenRouter Error: ${response.status} - ${JSON.stringify(data.error || data)}` }), {
+            const statusCode = response.status;
+            return new Response(JSON.stringify({ error: `API_ERROR_${statusCode}` }), {
               status: 500,
               headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
             });
@@ -79,8 +80,8 @@ export default {
           });
         }
 
-        // All models failed
-        return new Response(JSON.stringify({ error: `All models rate limited: ${JSON.stringify(lastError)}` }), {
+        // All models failed or rate limited
+        return new Response(JSON.stringify({ error: "API_ALL_MODELS_BUSY" }), {
           status: 429,
           headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
         });

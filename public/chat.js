@@ -207,7 +207,9 @@ async function handleSendMessage() {
 
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(`Cloudflare Function API Error: ${response.status} - ${errorText}`);
+            // Log technical details to console only — not shown to user
+            console.error(`Chat API Error ${response.status}:`, errorText);
+            throw new Error(`API_ERROR_${response.status}`);
         }
 
         const data = await response.json();
@@ -242,7 +244,7 @@ async function handleSendMessage() {
     } catch (error) {
         console.error("Chat API Error:", error);
         removeTypingIndicator();
-        addMessageToUI('bot', `I'm currently experiencing technical difficulties [Error: ${error.message}]. Please get in touch with us at rightstrikemartialartsclub@gmail.com instead.`);
+        addMessageToUI('bot', "Our AI assistant is currently unavailable. We're working to restore it! In the meantime, please reach out to us directly at **rightstrikemartialartsclub@gmail.com** or call **+91 90190 72938**.");
     }
 }
 
