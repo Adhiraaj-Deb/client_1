@@ -5,7 +5,7 @@ require('dotenv').config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('.')); // Serve the frontend files like index.html
+app.use(express.static('public')); // Serve the frontend files like index.html
 // AI_API - Replace the key below when it expires or gets revoked
 const AI_CHATBOT_API_KEY = process.env.OPENROUTER_API_KEY;
 
@@ -40,7 +40,7 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
-const PORT = 3005;
+const PORT = process.env.PORT || 3005;
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
