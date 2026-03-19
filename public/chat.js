@@ -207,24 +207,40 @@ function addMessageToUI(sender, text) {
 }
 
 function showTypingIndicator() {
-    const typingDiv = document.createElement('div');
-    typingDiv.classList.add('typing-indicator');
-    typingDiv.id = 'typing-indicator';
-    typingDiv.innerHTML = `
-        <span></span>
-        <span></span>
-        <span></span>
+    const bubble = document.createElement('div');
+    bubble.classList.add('message', 'bot-message', 'typing-bubble');
+    bubble.id = 'typing-indicator';
+    bubble.innerHTML = `
+        <div class="typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     `;
-    messagesContainer.appendChild(typingDiv);
+    messagesContainer.appendChild(bubble);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// Replace dots with the real text inside the same bubble (no flash)
+function resolveTypingIndicator(text) {
+    const bubble = document.getElementById('typing-indicator');
+    if (!bubble) {
+        addMessageToUI('bot', text);
+        return;
+    }
+    let formattedText = text.replace(/\n/g, '<br>');
+    formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    bubble.removeAttribute('id');
+    bubble.classList.remove('typing-bubble');
+    bubble.innerHTML = `<p>${formattedText}</p>`;
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
 function removeTypingIndicator() {
     const indicator = document.getElementById('typing-indicator');
-    if (indicator) {
-        indicator.remove();
-    }
+    if (indicator) indicator.remove();
 }
+
 
 async function handleSendMessage() {
     const text = chatInput.value.trim();
@@ -275,8 +291,6 @@ async function handleSendMessage() {
 
         const data = await response.json();
 
-        removeTypingIndicator();
-
         if (data.choices && data.choices.length > 0) {
             let botReply = data.choices[0].message.content;
 
@@ -290,11 +304,8 @@ async function handleSendMessage() {
                 }
             }
 
-            // Ensure botReply is a string
             botReply = String(botReply);
-
-            // Add bot reply to UI
-            addMessageToUI('bot', botReply);
+            resolveTypingIndicator(botReply);
 
             // Add to conversation history
             conversationHistory.push({ role: "assistant", content: botReply });
