@@ -444,6 +444,13 @@ body:not(.loading) .footer {
     box-sizing: border-box;
 }
 
+/* Global protection for images and assets */
+img, video, canvas, svg {
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
 html {
     scroll-behavior: smooth;
     font-size: var(--font-size-base);
