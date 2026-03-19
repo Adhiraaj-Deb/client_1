@@ -210,9 +210,9 @@ function showTypingIndicator() {
     typingDiv.classList.add('typing-indicator');
     typingDiv.id = 'typing-indicator';
     typingDiv.innerHTML = `
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
+        <span></span>
+        <span></span>
+        <span></span>
     `;
     messagesContainer.appendChild(typingDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
