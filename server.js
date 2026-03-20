@@ -20,7 +20,7 @@ app.post('/api/chat', async (req, res) => {
                 "X-Title": "Right Strike Dojo Chatbot"
             },
             body: JSON.stringify({
-                model: "liquid/lfm-2.5-1.2b-instruct:free",
+                model: "meta-llama/llama-3.3-70b-instruct:free",
                 messages: req.body.messages,
                 max_tokens: 512,
                 temperature: 0.2

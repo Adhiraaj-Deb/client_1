@@ -29,8 +29,8 @@ export default {
 
         // Try multiple free models in order for resilience
         const models = [
+          "meta-llama/llama-3.3-70b-instruct:free",
           "liquid/lfm-2.5-1.2b-instruct:free",
-          "meta-llama/llama-3.2-3b-instruct:free",
           "mistralai/mistral-7b-instruct:free",
         ];
 
