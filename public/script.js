@@ -358,6 +358,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>Start mastering your mind and body under expert guidance with ultimate flexibility.</p>
             `
         },
+        quarterly: {
+            title: 'Quarterly Plan (6 Months)',
+            content: `
+                <p>The perfect middle ground — commit to 6 months of structured Shito-Ryu Karate training and enjoy a discounted rate compared to month-to-month billing.</p>
+                <ul>
+                    <li><strong>Training Access:</strong> Full access to all scheduled classes for 6 consecutive months.</li>
+                    <li><strong>Focus:</strong> Steady skill development, from fundamental stances to advanced Shito-Ryu forms and sparring strategies.</li>
+                    <li><strong>Benefits:</strong> Meaningful savings over the monthly plan, with enough time to genuinely progress through belt levels.</li>
+                    <li><strong>Billing:</strong> One upfront payment covering 6 full months of training.</li>
+                </ul>
+                <p>Ideal for students ready to commit to real progress while enjoying greater value than month-to-month membership.</p>
+            `
+        },
         yearly: {
             title: 'Annual Plan (Best Value)',
             content: `

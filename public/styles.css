@@ -1103,7 +1103,7 @@ a {
 
 .programs-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-md);
     margin-top: var(--spacing-lg);
 }
@@ -1180,7 +1180,7 @@ a {
 
 .program-features {
     list-style: none;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: 0;
 }
 
 .program-features li {
@@ -2539,6 +2539,20 @@ a {
     object-fit: contain;
     background: var(--color-background-dark);
     padding: var(--spacing-sm);
+}
+
+/* Center odd last item (3rd certificate) */
+.recognition-grid .gallery-item:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: 450px;
+    width: 100%;
+}
+
+/* Adjust for vertical certificate */
+.recognition-grid .gallery-item.vertical-cert .gallery-image {
+    aspect-ratio: auto;
+    min-height: 400px;
 }
 
 @media (max-width: 900px) {

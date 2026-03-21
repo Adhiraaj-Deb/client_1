@@ -153,7 +153,7 @@ fees, schedules, location, and karate in general. You are not a general-purpose 
 - Location: Bangalore, Karnataka, India
 - Contact: +91 90190 72938
 - Email: rightstrikemartialartsclub@gmail.com
-- Programs: Monthly Plan (Flexible) | Annual Plan (Best Value)
+- Programs: Monthly Plan (Flexible) | Quarterly Plan (6 Months, discounted rate) | Annual Plan (Best Value)
 - Key Benefits: Traditional discipline, self-defence skills, fitness, 
   safe and structured environment
 - Website sections: Home, Programs, Fees, About, Contact
