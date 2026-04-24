@@ -5,42 +5,74 @@ require('dotenv').config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public')); // Serve the frontend files like index.html
-// AI_API - Replace the key below when it expires or gets revoked
-const AI_CHATBOT_API_KEY = process.env.OPENROUTER_API_KEY;
+app.use(express.static('public'));
+
+const API_KEY = process.env.OPENROUTER_API_KEY;
+
+// Same 3-model fallback chain used by the Cloudflare Worker
+const MODELS = [
+    "meta-llama/llama-3.3-70b-instruct:free",
+    "liquid/lfm-2.5-1.2b-instruct:free",
+    "mistralai/mistral-7b-instruct:free",
+];
 
 app.post('/api/chat', async (req, res) => {
-    try {
-        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${AI_CHATBOT_API_KEY}`,
-                "Content-Type": "application/json",
-                "HTTP-Referer": "http://localhost:3000",
-                "X-Title": "Right Strike Dojo Chatbot"
-            },
-            body: JSON.stringify({
-                model: "meta-llama/llama-3.3-70b-instruct:free",
-                messages: req.body.messages,
-                max_tokens: 512,
-                temperature: 0.2
-            })
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`OpenRouter API Error: ${response.status} - ${errorText}`);
-        }
-
-        const data = await response.json();
-        res.json(data);
-    } catch (error) {
-        console.error("Proxy Error:", error);
-        res.status(500).json({ error: error.message });
+    if (!API_KEY) {
+        return res.status(500).json({ error: "Missing OPENROUTER_API_KEY in .env" });
     }
+
+    let lastError = null;
+
+    for (const model of MODELS) {
+        try {
+            const upstream = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${API_KEY}`,
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "http://localhost:3005",
+                    "X-Title": "Right Strike Dojo Chatbot",
+                },
+                body: JSON.stringify({
+                    model,
+                    messages: req.body.messages,
+                    max_tokens: 512,
+                    temperature: 0.2,
+                }),
+            });
+
+            const data = await upstream.json();
+
+            // Rate-limited — try next model
+            if (upstream.status === 429 || (data.error && data.error.code === 429)) {
+                lastError = data.error || { message: "Rate limited" };
+                console.warn(`[chat] Model ${model} rate-limited, trying next...`);
+                continue;
+            }
+
+            // Other upstream error
+            if (!upstream.ok || data.error) {
+                console.error(`[chat] Model ${model} error:`, data.error);
+                return res.status(500).json({ error: `API_ERROR_${upstream.status}` });
+            }
+
+            // Success
+            console.log(`[chat] Responded using model: ${model}`);
+            return res.json(data);
+
+        } catch (err) {
+            console.error(`[chat] Fetch error for model ${model}:`, err.message);
+            lastError = err;
+        }
+    }
+
+    // All models exhausted
+    console.error("[chat] All models failed or rate-limited.");
+    return res.status(429).json({ error: "API_ALL_MODELS_BUSY" });
 });
 
 const PORT = process.env.PORT || 3005;
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`✅ Server running at http://localhost:${PORT}`);
+    console.log(`🔑 OpenRouter key loaded: ${API_KEY ? '...'+API_KEY.slice(-6) : 'MISSING'}`);
 });
