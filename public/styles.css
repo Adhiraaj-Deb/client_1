@@ -3755,4 +3755,158 @@ body.loading .ai-chat-window {
     font-style: italic;
 }
  
+/* ================================================================
+   MOBILE OPTIMISATION PATCH
+   Supplements the primary @media(max-width:768px) block above.
+   Adds coverage for: new hero CTA buttons, schedule section,
+   global overflow guard, iOS safe-area insets, hero above-fold fix.
+   ================================================================ */
+
+/* ── 1. Global overflow guard ── */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Ensure every direct section/div child cannot escape the viewport */
+.hero,
+.about-instructor,
+.why-choose,
+.programs,
+.testimonials,
+.schedule-section,
+.contact,
+.footer {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* ── 2. iOS safe-area insets (notch/home-bar) ── */
+.navbar {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+}
+
+.footer {
+    padding-bottom: calc(var(--spacing-md) + env(safe-area-inset-bottom));
+}
+
+/* ── 3. Hero: reduce second tagline gap so CTAs stay above fold ── */
+@media (max-width: 768px) {
+    .hero-tagline {
+        margin-bottom: 0.75rem;
+    }
+
+    /* New CTA buttons — cover the gap left by the 600px-only rule */
+    .btn-cta-primary,
+    .btn-cta-secondary,
+    .btn-cta-tertiary {
+        min-height: 48px;
+    }
+
+    /* When between 601–768px stacking is still applied above  */
+    .hero-cta {
+        gap: 0.85rem;
+    }
+}
+
+/* ── 4. New hero CTA buttons on phones (≤600px already stacks; enforce min-height) ── */
+@media (max-width: 600px) {
+    .btn-cta-primary,
+    .btn-cta-secondary,
+    .btn-cta-tertiary {
+        min-height: 48px;
+        font-size: 0.88rem;
+        letter-spacing: 0.4px;
+    }
+}
+
+/* ── 5. Schedule section — small phones (≤480px) ── */
+@media (max-width: 480px) {
+    .schedule-section .glass-card,
+    .schedule-activities {
+        padding: 1.1rem 0.9rem;
+    }
+
+    .schedule-card-title {
+        font-size: 1rem;
+    }
+
+    .rsmac-calendar .cal-day {
+        font-size: 0.7rem;
+    }
+
+    .cal-month-label {
+        font-size: 0.85rem;
+    }
+
+    .activities-grid {
+        gap: 0.75rem;
+    }
+
+    .activity-card {
+        padding: 1rem;
+    }
+
+    .activity-title {
+        font-size: 0.88rem;
+    }
+
+    .activity-desc {
+        font-size: 0.75rem;
+    }
+
+    /* Timetable: reduce font further on very small screens */
+    .timetable {
+        font-size: 0.7rem;
+    }
+
+    .timetable th {
+        padding: 0.45rem 0.3rem;
+        font-size: 0.65rem;
+    }
+
+    .tt-time {
+        font-size: 0.68rem;
+        padding: 0.45rem 0.4rem;
+    }
+
+    .tt-class {
+        font-size: 0.65rem;
+        padding: 0.35rem 0.2rem;
+    }
+}
+
+/* ── 6. Footer layout on very small phones ── */
+@media (max-width: 480px) {
+    .footer-section h4 {
+        font-size: 0.9rem;
+    }
+
+    .footer-section p,
+    .footer-links a {
+        font-size: 0.82rem;
+    }
+}
+
+/* ── 7. Programs grid — prevent card overflow ── */
+@media (max-width: 480px) {
+    .program-card {
+        padding: 1rem;
+    }
+
+    .program-image {
+        border-radius: var(--radius-md);
+    }
+
+    .program-title {
+        font-size: 1.05rem;
+    }
+
+    .program-description,
+    .program-features li {
+        font-size: 0.83rem;
+    }
+}
  
