@@ -420,7 +420,213 @@
         </div>
     </section>
 
+
     <!-- ============================================================ -->
+    <!-- EVENTS & SCHEDULE SECTION                                     -->
+    <!-- ============================================================ -->
+    <section class="schedule-section section-padding" id="schedule">
+        <div class="container">
+
+            <!-- Section Header -->
+            <div class="section-header">
+                <h2 class="section-title">Events &amp; <span class="section-title-accent">Schedule</span></h2>
+                <div class="title-underline"></div>
+                <p class="section-subtitle">Stay up to date with our classes, events, and workshops</p>
+            </div>
+
+            <!-- ── Row 1: Calendar + Timetable ── -->
+            <div class="schedule-top-row">
+
+                <!-- 1. RS MAC Calendar -->
+                <div class="schedule-card glass-card" data-aos="fade-right">
+                    <div class="schedule-card-header">
+                        <span class="schedule-card-icon" aria-hidden="true">📅</span>
+                        <h3 class="schedule-card-title">RS MAC Calendar</h3>
+                    </div>
+
+                    <div class="rsmac-calendar">
+                        <div class="cal-nav" aria-label="Calendar navigation">
+                            <button class="cal-nav-btn" id="calPrev" aria-label="Previous month">&#8249;</button>
+                            <span class="cal-month-label" id="calMonthLabel"></span>
+                            <button class="cal-nav-btn" id="calNext" aria-label="Next month">&#8250;</button>
+                        </div>
+                        <div class="cal-grid">
+                            <div class="cal-day-name">Sun</div>
+                            <div class="cal-day-name">Mon</div>
+                            <div class="cal-day-name">Tue</div>
+                            <div class="cal-day-name">Wed</div>
+                            <div class="cal-day-name">Thu</div>
+                            <div class="cal-day-name">Fri</div>
+                            <div class="cal-day-name">Sat</div>
+                        </div>
+                        <div class="cal-days-grid" id="calDaysGrid"></div>
+                        <div class="cal-legend">
+                            <span class="cal-legend-dot cal-dot-class"></span><span>Class Day</span>
+                            <span class="cal-legend-dot cal-dot-event" style="margin-left:1rem;"></span><span>Event</span>
+                            <span class="cal-legend-dot cal-dot-today" style="margin-left:1rem;"></span><span>Today</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Weekly Timetable -->
+                <div class="schedule-card glass-card" data-aos="fade-left">
+                    <div class="schedule-card-header">
+                        <span class="schedule-card-icon" aria-hidden="true">🕐</span>
+                        <h3 class="schedule-card-title">Weekly Timetable</h3>
+                    </div>
+
+                    <div class="timetable-scroll-wrapper">
+                        <table class="timetable" role="grid" aria-label="Weekly class timetable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Mon</th>
+                                    <th scope="col">Tue</th>
+                                    <th scope="col">Wed</th>
+                                    <th scope="col">Thu</th>
+                                    <th scope="col">Fri</th>
+                                    <th scope="col">Sat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="tt-time">6:00 AM</td>
+                                    <td class="tt-class tt-kids">Kids Batch</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-class tt-kids">Kids Batch</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-class tt-kids">Kids Batch</td>
+                                    <td class="tt-empty">—</td>
+                                </tr>
+                                <tr>
+                                    <td class="tt-time">7:00 AM</td>
+                                    <td class="tt-class tt-adult">Adult Batch</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-class tt-adult">Adult Batch</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-class tt-adult">Adult Batch</td>
+                                    <td class="tt-empty">—</td>
+                                </tr>
+                                <tr>
+                                    <td class="tt-time">5:30 PM</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-class tt-kids">Kids Batch</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-class tt-kids">Kids Batch</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-class tt-kids">Kids Batch</td>
+                                </tr>
+                                <tr>
+                                    <td class="tt-time">6:30 PM</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-class tt-adult">Adult Batch</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-class tt-adult">Adult Batch</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-class tt-advanced">Advanced</td>
+                                </tr>
+                                <tr>
+                                    <td class="tt-time">7:30 PM</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-empty">—</td>
+                                    <td class="tt-class tt-special">Open Mat</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tt-legend">
+                        <span class="tt-legend-chip tt-kids">Kids</span>
+                        <span class="tt-legend-chip tt-adult">Adult</span>
+                        <span class="tt-legend-chip tt-advanced">Advanced</span>
+                        <span class="tt-legend-chip tt-special">Special</span>
+                    </div>
+
+                    <p class="tt-note">* Schedule may vary. Contact us to confirm timings.</p>
+                </div>
+
+            </div><!-- /.schedule-top-row -->
+
+            <!-- ── Row 2: Club Activities ── -->
+            <div class="schedule-activities" data-aos="fade-up">
+                <div class="schedule-card-header" style="margin-bottom:1.5rem;">
+                    <span class="schedule-card-icon" aria-hidden="true">🥋</span>
+                    <h3 class="schedule-card-title">Club Activities</h3>
+                </div>
+                <div class="activities-grid">
+
+                    <article class="activity-card" aria-label="Training Sessions">
+                        <div class="activity-icon-wrap activity-icon-gold">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><path d="M17 4l2 2-2 2M7 4L5 6l2 2"/></svg>
+                        </div>
+                        <div class="activity-body">
+                            <h4 class="activity-title">Training Sessions</h4>
+                            <p class="activity-desc">Regular Shito-Ryu Karate classes for kids, teens, and adults — covering kata, kumite, and fundamental techniques.</p>
+                            <ul class="activity-tags">
+                                <li>Mon / Wed / Fri</li>
+                                <li>Morning &amp; Evening</li>
+                                <li>All Belts</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="activity-card" aria-label="Events and Competitions">
+                        <div class="activity-icon-wrap activity-icon-red">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2v6l4 2-4 2v6"/><path d="M18 2v6l-4 2 4 2v6"/></svg>
+                        </div>
+                        <div class="activity-body">
+                            <h4 class="activity-title">Events &amp; Competitions</h4>
+                            <p class="activity-desc">Grading ceremonies, inter-dojo competitions, and club-level tournaments to build competitive experience.</p>
+                            <ul class="activity-tags">
+                                <li>Belt Gradings</li>
+                                <li>Tournaments</li>
+                                <li>Demonstrations</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="activity-card" aria-label="Special Workshops">
+                        <div class="activity-icon-wrap activity-icon-blue">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+                        </div>
+                        <div class="activity-body">
+                            <h4 class="activity-title">Special Workshops</h4>
+                            <p class="activity-desc">Intensive weekend workshops on self-defence, weapons kata, fitness conditioning, and mental focus.</p>
+                            <ul class="activity-tags">
+                                <li>Weekends</li>
+                                <li>Open to All</li>
+                                <li>By Registration</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="activity-card" aria-label="Open Mat">
+                        <div class="activity-icon-wrap activity-icon-green">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                        </div>
+                        <div class="activity-body">
+                            <h4 class="activity-title">Open Mat Sessions</h4>
+                            <p class="activity-desc">Unstructured practice time every Saturday evening — freestyle sparring, kata review, and peer learning.</p>
+                            <ul class="activity-tags">
+                                <li>Every Saturday</li>
+                                <li>7:30 PM</li>
+                                <li>Members Only</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                </div><!-- /.activities-grid -->
+            </div><!-- /.schedule-activities -->
+
+        </div><!-- /.container -->
+    </section>
+    <!-- END EVENTS & SCHEDULE SECTION -->
+
+    <!-- ============================================================ -->
+
     <!-- CONTACT SECTION - TEMPORARILY HIDDEN (re-enable when ready) -->
     <!-- To restore: remove the wrapping div with style="display:none" -->
     <!-- ============================================================ -->

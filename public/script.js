@@ -719,3 +719,81 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// ===================================
+// RS MAC Calendar
+// ===================================
+(function () {
+    const grid       = document.getElementById('calDaysGrid');
+    const label      = document.getElementById('calMonthLabel');
+    const prevBtn    = document.getElementById('calPrev');
+    const nextBtn    = document.getElementById('calNext');
+
+    if (!grid || !label || !prevBtn || !nextBtn) return;
+
+    const MONTHS = [
+        'January','February','March','April','May','June',
+        'July','August','September','October','November','December'
+    ];
+
+    // Days when classes run (0=Sun,1=Mon,...,6=Sat)
+    const CLASS_DAYS = new Set([1, 2, 3, 4, 5, 6]); // Mon–Sat
+
+    // Special event dates: { 'YYYY-M-D': true }
+    // These can be updated whenever real events are scheduled.
+    const EVENT_DATES = {};
+
+    const now  = new Date();
+    let cur = { year: now.getFullYear(), month: now.getMonth() };
+
+    function buildCalendar({ year, month }) {
+        grid.innerHTML = '';
+        label.textContent = `${MONTHS[month]} ${year}`;
+
+        const firstDay  = new Date(year, month, 1).getDay();   // 0=Sun
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const todayKey  = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
+
+        // Empty prefix cells
+        for (let i = 0; i < firstDay; i++) {
+            const empty = document.createElement('div');
+            empty.className = 'cal-day cal-empty';
+            grid.appendChild(empty);
+        }
+
+        // Day cells
+        for (let d = 1; d <= daysInMonth; d++) {
+            const cell = document.createElement('div');
+            cell.className = 'cal-day';
+            cell.textContent = d;
+
+            const dayOfWeek = new Date(year, month, d).getDay();
+            const key = `${year}-${month}-${d}`;
+            const isToday = (key === todayKey);
+
+            if (isToday) {
+                cell.classList.add('cal-today');
+            } else if (EVENT_DATES[key]) {
+                cell.classList.add('cal-event-day');
+            } else if (CLASS_DAYS.has(dayOfWeek)) {
+                cell.classList.add('cal-class-day');
+            }
+
+            grid.appendChild(cell);
+        }
+    }
+
+    buildCalendar(cur);
+
+    prevBtn.addEventListener('click', () => {
+        cur.month--;
+        if (cur.month < 0) { cur.month = 11; cur.year--; }
+        buildCalendar(cur);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        cur.month++;
+        if (cur.month > 11) { cur.month = 0; cur.year++; }
+        buildCalendar(cur);
+    });
+})();
