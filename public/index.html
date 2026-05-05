@@ -15,6 +15,41 @@
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=block"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* TEMPORARY BLACKOUT SCREEN */
+        body {
+            overflow: hidden !important;
+        }
+
+        body::after {
+            content: "";
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background-color: black !important;
+            z-index: 2147483646 !important;
+            pointer-events: all !important;
+            cursor: default !important;
+        }
+
+        body::before {
+            content: "TEMPORARILY UNAVAILABLE";
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            color: white !important;
+            font-family: 'Bebas Neue', sans-serif !important;
+            font-size: 4rem !important;
+            font-weight: bold !important;
+            z-index: 2147483647 !important;
+            pointer-events: none !important;
+            white-space: nowrap !important;
+            letter-spacing: 5px !important;
+        }
+    </style>
 </head>
 
 <body class="loading">
